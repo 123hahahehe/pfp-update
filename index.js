@@ -1,7 +1,10 @@
+const http = require('http');
+
+// Your bot code
 const { Client, Intents } = require('discord.js');
 require('dotenv').config();
 
-const client = new Client({ 
+const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
 });
 
@@ -24,3 +27,14 @@ client.once('ready', () => {
 });
 
 client.login(process.env.BOT_TOKEN);
+
+// HTTP server to keep the bot alive
+const server = http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end('Bot is running.');
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});
